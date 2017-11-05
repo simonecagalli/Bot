@@ -16,28 +16,32 @@ function isNumeric(n) {
 
 telegram.on("text", (message) => {
 
-    if (message.text.toLowerCase().indexOf("/togli") === 0) {
+    if (message.text.toLowerCase().indexOf("/sub") === 0) {
         var lol = message.text.split(" ");
         var arg1 = lol[1];
         var arg2 = lol[2];
-        if (isNumeric(arg1) && arg2 in dict) {
-            var sub = dict[arg2];
-            sub = sub - arg1;
-            telegram.sendMessage(message.chat.id, arg2 + " x" + sub);
+        if (arg1 === undefined) {
+            telegram.sendMessage(message.chat.id, "Ma togliere cosa?\n/sub [n] <oggetto>");
         } else {
-            if (!isNumeric(arg1) && arg1 in dict) {
-                var sub = dict[arg1];
-                sub--;
-                telegram.sendMessage(message.chat.id, arg1 + " x" + sub);
+            if (isNumeric(arg1) && arg2 in dict) {
+                var sub = dict[arg2] - arg1;
+                var cc = dict[arg2] = sub;
+                telegram.sendMessage(message.chat.id, arg2 + " x" + cc);
             } else {
-                if (isNumeric(arg1) && !(arg2 in dict)) {
-                    telegram.sendMessage(message.chat.id, "\"" + arg2 + "\" non è nella lista!");
+                if (!isNumeric(arg1) && arg1 in dict) {
+                    var decr = dict[arg1] - 1;
+                    var ee = dict[arg1] = decr;
+                    telegram.sendMessage(message.chat.id, arg1 + " x" + ee);
                 } else {
-                    if (!isNumeric(arg1) && !(arg1 in dict)) {
-                        telegram.sendMessage(message.chat.id, "\"" + arg1 + "\" non è nella lista!");
-                    }
-                    ;
+                    if (isNumeric(arg1) && !(arg2 in dict)) {
+                        telegram.sendMessage(message.chat.id, "\"" + arg2 + "\" non è nella lista!");
+                    } else {
+                        if (!isNumeric(arg1) && !(arg1 in dict)) {
+                            telegram.sendMessage(message.chat.id, "\"" + arg1 + "\" non è nella lista!");
+                        }
+                        ;
 
+                    }
                 }
             }
         }
@@ -63,10 +67,38 @@ telegram.on("text", (message) => {
     }
 });
 
-
 telegram.on("text", (message) => {
 
-    if (message.text.toLowerCase() === "/togli") {
-        telegram.sendMessage(message.chat.id, "Cosa vuoi togliere?\n/togli [n] <oggetto>");
+    if (message.text.toLowerCase().indexOf("/add") === 0) {
+        var lol = message.text.split(" ");
+        var arg1 = lol[1];
+        var arg2 = lol[2];
+        if (arg1 === undefined) {
+            telegram.sendMessage(message.chat.id, "Ma aggiungere cosa?\n/add [n] <oggetto>");
+        } else {
+            if (isNumeric(arg1) && arg2 in dict) {
+                var er = dict[arg2];
+                var sub = er + parseInt(arg1);
+                var cc = dict[arg2] = sub;
+                telegram.sendMessage(message.chat.id, arg2 + " x" + cc);
+            } else {
+                if (!isNumeric(arg1) && arg1 in dict) {
+                    var ar = dict[arg1];
+                    var incr = ar + 1;
+                    var ee = dict[arg1] = incr;
+                    telegram.sendMessage(message.chat.id, arg1 + " x" + ee);
+                } else {
+                    if (isNumeric(arg1) && !(arg2 in dict)) {
+                        telegram.sendMessage(message.chat.id, "\"" + arg2 + "\" non è nella lista!");
+                    } else {
+                        if (!isNumeric(arg1) && !(arg1 in dict)) {
+                            telegram.sendMessage(message.chat.id, "\"" + arg1 + "\" non è nella lista!");
+                        }
+                        ;
+
+                    }
+                }
+            }
+        }
     }
 });
