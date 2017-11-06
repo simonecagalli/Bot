@@ -26,14 +26,14 @@ telegram.on("text", (message) => {
             if (arg1 > 0) {
                 var sub = dict[arg2] - arg1;
                 var cc = dict[arg2] = sub;
-                telegram.sendMessage(message.chat.id, "Ora possiedi: " + arg2 + " x" + cc);
+                telegram.sendMessage(message.chat.id, "Ora cerchi: " + arg2 + " x" + cc);
             } else {
                 telegram.sendMessage(message.chat.id, "Deve essere un numero positivo, piccolo birbantello.");
             }
         } else if (!isNumeric(arg1) && arg1 in dict) {
             var decr = dict[arg1] - 1;
             var ee = dict[arg1] = decr;
-            telegram.sendMessage(message.chat.id, "Ora possiedi: " + arg1 + " x" + ee);
+            telegram.sendMessage(message.chat.id, "Ora cerchi: " + arg1 + " x" + ee);
         } else if (isNumeric(arg1) && !(arg2 in dict)) {
             telegram.sendMessage(message.chat.id, "\"" + arg2 + "\" non è nella lista!");
         } else if (!isNumeric(arg1) && !(arg1 in dict)) {
@@ -50,12 +50,20 @@ telegram.on("text", (message) => {
 
 telegram.on("text", (message) => {
 
-    if (message.text.toLowerCase().indexOf("/counter") === 0) {
-        var output = '';
-        for (var property in dict) {
-            output += property + ': ' + dict[property] + '; ';
+    if (message.text.toLowerCase().indexOf("/show") === 0) {
+        var lol = message.text.split(" ");
+        var arg1 = lol[1];
+        if (arg1 === undefined) {
+            var output = '';
+            for (var property in dict) {
+                output += property + ': ' + dict[property] + '; ';
+            }
+            telegram.sendMessage(message.chat.id, output);
+        } else if (arg1 in dict) {
+            telegram.sendMessage(message.chat.id, "Cerchi: "+arg1 + " x" + dict[arg1]);
+        } else {
+            telegram.sendMessage(message.chat.id, "Al momento non stai cercando questo oggetto.");
         }
-        telegram.sendMessage(message.chat.id, output);
     }
 });
 
@@ -80,7 +88,7 @@ telegram.on("text", (message) => {
                 var er = dict[arg2];
                 var sub = er + parseInt(arg1);
                 var cc = dict[arg2] = sub;
-                telegram.sendMessage(message.chat.id, "Ora possiedi: " + arg2 + " x" + cc);
+                telegram.sendMessage(message.chat.id, "Ora cerchi: " + arg2 + " x" + cc);
             } else {
                 telegram.sendMessage(message.chat.id, "Deve essere un numero positivo, piccolo birbantello.");
             }
@@ -88,19 +96,18 @@ telegram.on("text", (message) => {
             var ar = dict[arg1];
             var incr = ar + 1;
             var ee = dict[arg1] = incr;
-            telegram.sendMessage(message.chat.id, "Ora possiedi: " + arg1 + " x" + ee);
+            telegram.sendMessage(message.chat.id, "Ora cerchi: " + arg1 + " x" + ee);
         } else if (isNumeric(arg1) && !(arg2 in dict)) {
             telegram.sendMessage(message.chat.id, "\"" + arg2 + "\" non è nella lista!");
         } else if (!isNumeric(arg1) && !(arg1 in dict)) {
             telegram.sendMessage(message.chat.id, "\"" + arg1 + "\" non è nella lista!");
         }
-
     }
 });
 
 telegram.on("text", (message) => {
 
-    if (message.text.toLowerCase().indexOf("/new") === 0) {
+    if (message.text.toLowerCase().indexOf("/ins") === 0) {
         var lol = message.text.split(" ");
         var arg1 = lol[1];
         var arg2 = lol[2];
@@ -119,11 +126,21 @@ telegram.on("text", (message) => {
                 telegram.sendMessage(message.chat.id, "Deve essere un numero positivo, piccolo birbantello.");
             }
         }
-
     }
+});
 
+telegram.on("text", (message) => {
 
-
-
-}
-);
+    if (message.text.toLowerCase().indexOf("/del") === 0) {
+        var lol = message.text.split(" ");
+        var arg1 = lol[1];
+        if (arg1 === undefined) {
+            telegram.sendMessage(message.chat.id, "Cosa vuoi eliminare?\n/del <oggetto>");
+        } else if (arg1 in dict) {
+            delete dict[arg1];
+            telegram.sendMessage(message.chat.id, "\"" + arg1 + "\" eliminato dalla lista.");
+        } else if (!(arg1 in dict)) {
+            telegram.sendMessage(message.chat.id, "\"" + arg1 + "\" Non trovato!\nUsa /count per vedere gli oggetti presenti nella lista.");
+        }
+    }
+});
