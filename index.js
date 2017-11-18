@@ -27,6 +27,12 @@ telegram.on("text", (message) => {
                 var sub = dict[arg2] - arg1;
                 var cc = dict[arg2] = sub;
                 telegram.sendMessage(message.chat.id, "Ora cerchi: " + arg2 + " x" + cc);
+                for (var val in dict) {
+                    if (dict[val] <= 0) {
+                        telegram.sendMessage(message.chat.id,"\""+ arg2 + "\" è stato rimosso dalla lista!");
+                        delete dict[val];
+                    }
+                }
             } else {
                 telegram.sendMessage(message.chat.id, "Deve essere un numero positivo, piccolo birbantello.");
             }
@@ -34,6 +40,12 @@ telegram.on("text", (message) => {
             var decr = dict[arg1] - 1;
             var ee = dict[arg1] = decr;
             telegram.sendMessage(message.chat.id, "Ora cerchi: " + arg1 + " x" + ee);
+            for (var val in dict) {
+                if (dict[val] <= 0) {
+                    telegram.sendMessage(message.chat.id,"\""+ arg1 + "\" è stato rimosso dalla lista!");
+                    delete dict[val];
+                }
+            }
         } else if (isNumeric(arg1) && !(arg2 in dict)) {
             telegram.sendMessage(message.chat.id, "\"" + arg2 + "\" non è nella lista!");
         } else if (!isNumeric(arg1) && !(arg1 in dict)) {
@@ -60,7 +72,7 @@ telegram.on("text", (message) => {
             }
             telegram.sendMessage(message.chat.id, output);
         } else if (arg1 in dict) {
-            telegram.sendMessage(message.chat.id, "Cerchi: "+arg1 + " x" + dict[arg1]);
+            telegram.sendMessage(message.chat.id, "Cerchi: " + arg1 + " x" + dict[arg1]);
         } else {
             telegram.sendMessage(message.chat.id, "Al momento non stai cercando questo oggetto.");
         }

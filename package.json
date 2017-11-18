@@ -7,7 +7,7 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Simone Cagalli",
   "license": "ISC",
   "dependencies": {
     "node-telegram-bot-api": "^0.29.0"
