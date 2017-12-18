@@ -156,3 +156,22 @@ telegram.on("text", (message) => {
         }
     }
 });
+
+telegram.on("inline_query", (query) => {
+                var output = '';
+            for (var property in dict) {
+                output += "- "+property + ': ' + dict[property] + ';\n';
+            }
+  telegram.answerInlineQuery(query.id, [
+    {
+        
+        
+      type: "article",
+      id: "testarticle",
+      title: "#cerco:...",
+      input_message_content: {
+        message_text: "#cerco:\n"+output
+      }
+    }
+  ]);
+});
