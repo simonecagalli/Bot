@@ -16,7 +16,7 @@ function isNumeric(n) {
 
 telegram.on("text", (message) => {
 
-    if (message.text.toLowerCase().equals("/start")) {
+    if (message.text.toLowerCase().match("/start")) {
 
         telegram.sendMessage(message.chat.id, "Benvenuto! Per cominciare usa i comandi.");
     }
