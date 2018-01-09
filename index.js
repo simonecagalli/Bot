@@ -16,6 +16,15 @@ function isNumeric(n) {
 
 telegram.on("text", (message) => {
 
+    if (message.text.toLowerCase().equals("/start")) {
+
+        telegram.sendMessage(message.chat.id, "Benvenuto! Per cominciare usa i comandi.");
+    }
+});
+
+
+telegram.on("text", (message) => {
+
     if (message.text.toLowerCase().indexOf("/sub") === 0) {
         var lol = message.text.split(" ");
         var arg1 = lol[1];
@@ -29,7 +38,7 @@ telegram.on("text", (message) => {
                 telegram.sendMessage(message.chat.id, "Ora cerchi: " + arg2 + " x" + cc);
                 for (var val in dict) {
                     if (dict[val] <= 0) {
-                        telegram.sendMessage(message.chat.id,"\""+ arg2 + "\" è stato rimosso dalla lista!");
+                        telegram.sendMessage(message.chat.id, "\"" + arg2 + "\" è stato rimosso dalla lista!");
                         delete dict[val];
                     }
                 }
@@ -42,7 +51,7 @@ telegram.on("text", (message) => {
             telegram.sendMessage(message.chat.id, "Ora cerchi: " + arg1 + " x" + ee);
             for (var val in dict) {
                 if (dict[val] <= 0) {
-                    telegram.sendMessage(message.chat.id,"\""+ arg1 + "\" è stato rimosso dalla lista!");
+                    telegram.sendMessage(message.chat.id, "\"" + arg1 + "\" è stato rimosso dalla lista!");
                     delete dict[val];
                 }
             }
@@ -158,20 +167,19 @@ telegram.on("text", (message) => {
 });
 
 telegram.on("inline_query", (query) => {
-                var output = '';
-            for (var property in dict) {
-                output += "- "+property + ': ' + dict[property] + ';\n';
-            }
-  telegram.answerInlineQuery(query.id, [
-    {
-        
-        
-      type: "article",
-      id: "testarticle",
-      title: "#cerco:...",
-      input_message_content: {
-        message_text: "#cerco:\n"+output
-      }
+    var output = '';
+    for (var property in dict) {
+        output += "- " + property + ': ' + dict[property] + ';\n';
     }
-  ]);
+    telegram.answerInlineQuery(query.id, [
+        {
+
+            type: "article",
+            id: "testarticle",
+            title: "#cerco:...",
+            input_message_content: {
+                message_text: "#cerco:\n" + output
+            }
+        }
+    ]);
 });
